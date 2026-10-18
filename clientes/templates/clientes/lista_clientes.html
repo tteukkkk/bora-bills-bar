@@ -1,0 +1,45 @@
+{% extends 'menu/base.html' %}
+
+{% block content %}
+    <h1>Ranking dos Clientes</h1>
+
+    <table style="width:100%; border-collapse:collapse;">
+        <tr style="background:#390048; color:#ffe066;">
+            <th>Avatar</th>
+            <th>Nome</th>
+            <th>E-mail</th>
+            <th>Pontos</th>
+            <th>Data Cadastro</th>
+        </tr>
+
+        {% for cliente in clientes %}
+            <tr style="background:#fff9ed;">
+                <td>
+                    {% if cliente.avatar %}
+                        <img
+                            src="{{ cliente.avatar }}"
+                            width="40"
+                            style="border-radius:50%; border:2px solid #390048;"
+                        >
+                    {% else %}
+                        <span style="color:#aaa;">(sem avatar)</span>
+                    {% endif %}
+                </td>
+
+                <td>{{ cliente.nome }}</td>
+                <td>{{ cliente.email }}</td>
+                <td>{{ cliente.pontos }}</td>
+
+                <td>
+                    {{ cliente.data_cadastro|date:"d/m/Y H:i" }}
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="5">
+                    Nenhum cliente cadastrado.
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

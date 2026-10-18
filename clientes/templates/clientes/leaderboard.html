@@ -1,0 +1,112 @@
+{% extends 'menu/base.html' %}
+
+{% block content %}
+    <h1 style="color:#390048; text-align:center;">
+        👑 Ranking dos Deuses da Fome 👑
+    </h1>
+
+    <p style="text-align:center;">
+        Veja quem mais destruiu drinks no Bora Bills Bar!
+    </p>
+
+    <table
+        style="
+            width:90%;
+            margin:auto;
+            border-collapse:collapse;
+            font-size:1.1em;
+        "
+    >
+        <tr style="background:#390048; color:#ffe066;">
+            <th>Posição</th>
+            <th>Avatar</th>
+            <th>Nome</th>
+            <th>Personagem Favorito</th>
+            <th>Pontos</th>
+        </tr>
+
+        {% for cliente, personagem in clientes_info %}
+            <tr
+                style="
+                    background:
+                    {% if forloop.first %}
+                        #fff0c9
+                    {% elif forloop.counter == 2 %}
+                        #e3f6ff
+                    {% elif forloop.counter == 3 %}
+                        #ede7f6
+                    {% else %}
+                        #fff9ed
+                    {% endif %};
+
+                    font-weight:
+                    {% if forloop.first %}
+                        bold
+                    {% endif %};
+                "
+            >
+                <td style="text-align:center;">
+                    {% if forloop.counter == 1 %}
+                        🥇
+                    {% elif forloop.counter == 2 %}
+                        🥈
+                    {% elif forloop.counter == 3 %}
+                        🥉
+                    {% else %}
+                        {{ forloop.counter }}
+                    {% endif %}
+                </td>
+
+                <td style="text-align:center;">
+                    {% if cliente.avatar %}
+                        <img
+                            src="{{ cliente.avatar }}"
+                            width="50"
+                            height="100"
+                            style="border-radius:50%; border:2px solid #390048;"
+                        >
+                    {% else %}
+                        <span style="color:#aaa;">
+                            (sem avatar)
+                        </span>
+                    {% endif %}
+                </td>
+
+                <td>{{ cliente.nome }}</td>
+
+                <td>
+                    {% if personagem %}
+                        <div style="text-align:center;">
+                            <img src="{{ personagem.image }}" width="48" style="border-radius:12px;border:2px solid #ffe066;">
+                            <div style="font-size:0.9em;">{{ personagem.name }}</div>
+                        </div>
+                    {% elif cliente.personagem_favorito %}
+                        <div style="color:#aaa;">{{ cliente.personagem_favorito }} (não encontrado)</div>
+                    {% else %}
+                        <span style="color:#aaa;">-</span>
+                    {% endif %}
+                </td>
+
+                <td style="text-align:center;">
+                    <b>{{ cliente.pontos }}</b>
+                </td>
+            </tr>
+
+        {% empty %}
+
+            <tr>
+                <td colspan="4">
+                    Nenhum cliente cadastrado.
+                </td>
+            </tr>
+
+        {% endfor %}
+    </table>
+
+    <br>
+
+    <p style="text-align:center; font-size:0.98em;">
+        Atualize seus pontos consumindo drinks cósmicos
+        ou participe de desafios especiais do Bills!
+    </p>
+{% endblock %}

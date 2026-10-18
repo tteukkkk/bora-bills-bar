@@ -1,0 +1,111 @@
+{% extends 'menu/base.html' %}
+
+{% block content %}
+<style>
+    .curiosidade-card {
+        max-width: 420px;
+        margin: 2.5rem auto;
+        background: #fff9eddd;
+        border-radius: 20px;
+        box-shadow: 0 4px 28px #39004824;
+        padding: 2.3rem 1.6rem 1.6rem 1.6rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .curiosidade-card img {
+        width: 150px;
+        max-height: 240px;
+        object-fit: contain;
+        border-radius: 16px;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 10px #39004822;
+        border: 2px solid #39004844;
+        background: #fff;
+    }
+
+    .curiosidade-titulo {
+        color: #390048;
+        font-size: 1.6rem;
+        font-weight: bold;
+        margin-bottom: .3rem;
+        text-align: center;
+        letter-spacing: 1.5px;
+    }
+
+    .curiosidade-texto {
+        font-size: 1.18em;
+        color: #444;
+        text-align: center;
+        margin-bottom: .7em;
+    }
+</style>
+
+<div class="curiosidade-card">
+
+    <form
+        method="get"
+        action="{% url 'curiosidade' %}"
+        style="margin-bottom:1.2em; width:100%; text-align:center;"
+    >
+        <input
+            type="text"
+            name="busca"
+            placeholder="Digite o nome (ex: Goku)"
+            value="{{ busca|default:'' }}"
+            style="padding:.4em 1em; border-radius:8px; border:1px solid #390048; width:60%;"
+        >
+
+        <button
+            type="submit"
+            style="padding:.4em 1.1em; border-radius:8px; background:#390048; color:#ffe066; font-weight:bold; border:none;"
+        >
+            Buscar
+        </button>
+    </form>
+
+    {% if personagem %}
+
+        <img
+            src="{{ personagem.image }}"
+            alt="Imagem de {{ personagem.name }}"
+        >
+
+        <div class="curiosidade-titulo">
+            {{ personagem.name }}
+        </div>
+
+        <div class="curiosidade-texto">
+            {{ curiosidade }}
+        </div>
+
+        <div style="color:#947232; font-size:.95em;">
+            {% if personagem.affiliation %}
+                Afiliação: {{ personagem.affiliation }}
+                <br>
+            {% endif %}
+
+            {% if personagem.saga %}
+                Saga(s): {{ personagem.saga|join:", " }}
+            {% endif %}
+        </div>
+
+    {% else %}
+
+        <div
+            class="curiosidade-titulo"
+            style="color:#aaa;"
+        >
+            Nenhum personagem encontrado!
+        </div>
+
+        <div style="font-size:1.05em;">
+            Tente outro nome ou busque sem digitar nada
+            para ver uma curiosidade aleatória.
+        </div>
+
+    {% endif %}
+
+</div>
+{% endblock %}

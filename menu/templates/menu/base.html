@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Bora Bills Bar</title>
+
+    <style>
+        html, body {
+            height: 100%;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #3d0066 0%, #ffe066 100%);
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #390048;
+            padding: 1rem 2rem;
+            color: #ffe066;
+            box-shadow: 0 2px 8px #0003;
+        }
+
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .navbar-logo img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 2px solid #ffe066;
+        }
+
+        .navbar-links a {
+            color: #ffe066;
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: bold;
+            transition: color 0.2s;
+        }
+
+        .navbar-links a:hover {
+            color: #fff;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            flex: 1 0 auto;
+        }
+
+        h1, h2 {
+            color: #390048;
+        }
+
+        .footer {
+            margin-top: auto;
+            padding: 1rem;
+            text-align: center;
+            color: #fff;
+            background: #390048bb;
+        }
+    </style>
+
+    {% block extra_head %}
+    {% endblock %}
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="navbar-logo">
+            <img src="{% static 'menu/bbb01.jpg' %}" alt="Logo Bills">
+            <span style="font-size: 1.8rem; font-weight: bold;">
+                Bora Bills Bar
+            </span>
+        </div>
+
+        <div class="navbar-links">
+            <a href="{% url 'home' %}">Início</a>
+            <a href="{% url 'cardapio' %}">Cardápio</a>
+            <a href="{% url 'curiosidade' %}">Curiosidades</a>
+            <a href="{% url 'ranking_clientes' %}">Ranking</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <div class="footer">
+        Bora Bills Bar &copy; 2025 &mdash; Dragon Ball Z Theme Project
+    </div>
+</body>
+</html>

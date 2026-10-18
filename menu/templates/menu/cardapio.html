@@ -1,0 +1,101 @@
+{% extends 'menu/base.html' %}
+{% load get_item %}
+
+{% block content %}
+    <h1>Cardápio Cósmico do Bills</h1>
+
+    <p>Drinks selecionados do universo!</p>
+
+    <form method="get" action="{% url 'cardapio' %}" style="margin-bottom: 2rem;">
+        <label for="busca">
+            <b>Buscar bebida:</b>
+        </label>
+
+        <input
+            type="text"
+            name="busca"
+            id="busca"
+            placeholder="Digite o nome do drink..."
+            value="{{ busca|default:'' }}"
+            style="padding:0.4em 0.8em;border-radius:8px;border:1px solid #390048;width:220px;"
+        >
+
+        <button
+            type="submit"
+            style="padding:0.4em 1.2em;border-radius:8px;background:#390048;color:#ffe066;font-weight:bold;border:none;"
+        >
+            Buscar
+        </button>
+    </form>
+
+    {% if buscou %}
+        {% if drinks %}
+            <div style="display:flex; flex-wrap:wrap; gap:2rem; justify-content:flex-start;">
+                {% for drink in drinks %}
+                    <div
+                        style="
+                            background:#fff6;
+                            border-radius:14px;
+                            box-shadow:0 2px 10px #39004822;
+                            width:300px;
+                            padding:1rem;
+                            margin-bottom:2rem;
+                        "
+                    >
+                        <img
+                            src="{{ drink.strDrinkThumb }}"
+                            alt="Imagem do drink {{ drink.strDrink }}"
+                            width="100%"
+                            style="border-radius:12px; border:3px solid #390048;"
+                        >
+
+                        <h3 style="color:#390048;">
+                            {{ drink.strDrink }}
+                        </h3>
+
+                        <p>
+                            <strong>Categoria:</strong>
+                            {{ drink.strCategory }}
+                        </p>
+
+                        <p>
+                            <strong>Tipo:</strong>
+                            {{ drink.strAlcoholic }}
+                        </p>
+
+                        <div>
+                            <strong>Ingredientes:</strong>
+
+                            <ul>
+                                {% for i in range_ingredientes %}
+                                    {% with key_ingredient='strIngredient'|add:i|stringformat:'s' key_measure='strMeasure'|add:i|stringformat:'s' %}
+                                        {% with ingredient=drink|get_item:key_ingredient measure=drink|get_item:key_measure %}
+                                            {% if ingredient %}
+                                                <li>
+                                                    {{ ingredient }}
+                                                    {% if measure %}
+                                                        — {{ measure|default_if_none:'' }}
+                                                    {% endif %}
+                                                </li>
+                                            {% endif %}
+                                        {% endwith %}
+                                    {% endwith %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        <details>
+                            <summary>
+                                <b>Modo de preparo</b>
+                            </summary>
+
+                            <p>{{ drink.strInstructions }}</p>
+                        </details>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Nenhum drink encontrado 😢</p>
+        {% endif %}
+    {% endif %}
+{% endblock %}
